@@ -1,0 +1,29 @@
+latest-version: '1.0-SNAPSHOT'
+scoreboard:
+  game:
+    title: "&eResourceRush"
+    lines:
+      - "&m&7---------------------"
+      - ""
+      - " &fYour name: &e{player_name}"
+      - " "
+      - " &fYour points: &e{points}"
+      - ""
+      - "&m&7---------------------"
+blocksbreak-points: "&aYou have obtained a &e{blockType} &aand received: &e{points} &apoints"
+blocksbreak-sound: ENTITY_PLAYER_LEVELUP
+break-sound: true
+broadcastStart:
+  - "&m&7------------------------------"
+  - ""
+  - "     &eStarting... ResourceRush"
+  - ""
+  - "      &7Usage: &e/collect join"
+  - ""
+  - "&m&7------------------------------"
+winner-message:
+  - "&m&7------------------------------"
+  - ""
+  - "       &fWinner: &7{winnerName} &rpoints: &e{winnerPoints}"
+  - ""
+  - "&m&7------------------------------"
