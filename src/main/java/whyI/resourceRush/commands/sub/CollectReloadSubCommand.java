@@ -2,6 +2,7 @@ package whyI.resourceRush.commands.sub;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import whyI.resourceRush.ResourceRush;
 import whyI.resourceRush.data.BlockConfiguration;
@@ -36,6 +37,18 @@ public class CollectReloadSubCommand implements SubCommand {
                 e.printStackTrace();
             }
 
+            return;
+        }
+
+        FileConfiguration config = ResourceRush.getInstance().getConfig();
+        String _noPerm = config.getString("noPermission");
+        if(_noPerm == null) {
+            player.sendMessage(Colorize.format("&4In the configuration, you need to specify the text noPermission"));
+            return;
+        }
+
+        if (!player.hasPermission("resourcerush.user") || !player.hasPermission("resourcerush.admin") || !player.isOp()) {
+            player.sendMessage(Colorize.format(_noPerm));
             return;
         }
 

@@ -1,4 +1,5 @@
 latest-version: '1.0-SNAPSHOT'
+noPermission: "&4You don't have enough rights to use this command!"
 scoreboard:
   game:
     title: "&eResourceRush"

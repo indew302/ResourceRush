@@ -24,15 +24,18 @@ public class CollectJoinSubCommand implements SubCommand {
     }
 
     public void execute(CommandSender sender, String[] args) {
-        Player player;
-        if (sender instanceof Player) {
-            player = (Player)sender;
-        } else {
+        if (!(sender instanceof Player player)) {
             sender.sendMessage("That command can usage only player.");
             return;
         }
+
         FileConfiguration config = ResourceRush.getInstance().getConfig();
         String _noPerm = config.getString("noPermission");
+        if(_noPerm == null) {
+            player.sendMessage(Colorize.format("&4In the configuration, you need to specify the text noPermission"));
+            return;
+        }
+
         if (!player.hasPermission("resourcerush.user") || !player.hasPermission("resourcerush.admin") || !player.isOp()) {
             player.sendMessage(Colorize.format(_noPerm));
             return;
