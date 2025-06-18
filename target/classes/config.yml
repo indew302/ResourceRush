@@ -1,0 +1,22 @@
+latest-version: '1.0-SNAPSHOT'
+noPermission: "&4You don't have enough rights to use this command!"
+scoreboard:
+  game:
+    title: "&eResourceRush"
+    lines:
+      - "&m&7--------------------- "
+      - "  "
+      - " &fYour name: &e{player_name}"
+      - " "
+      - " &fYour points: &e{points}"
+      - "   "
+      - "&m&7---------------------  "
+blocksbreak-points: "&aYou have obtained a &e{blockType} &aand received: &e{points} &apoints"
+break-sound: true
+blocksbreak-sound: ENTITY_PLAYER_LEVELUP
+winner-message:
+  - "&m&7------------------------------"
+  - ""
+  - "       &fWinner: &7{winnerName} &rpoints: &e{winnerPoints}"
+  - ""
+  - "&m&7------------------------------"

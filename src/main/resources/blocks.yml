@@ -1,0 +1,5 @@
+materials:
+  blocks:
+    - GOLD_ORE
+    - IRON_ORE
+    - DIAMOND_ORE
