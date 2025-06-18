@@ -2,11 +2,9 @@
 target/
 *.log
 
-# IntelliJ IDEA
 .idea/
 *.iml
 out/
 
-# Operating System files
 .DS_Store
 Thumbs.db
