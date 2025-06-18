@@ -16,7 +16,18 @@ public class CollectHelpSubCommand implements SubCommand {
 
     public void execute(CommandSender sender, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("That command can usage only player.");
+
+            if(args.length > 1) return;
+
+            List<String> helpMsg = new ArrayList<>();
+
+            helpMsg.add(Colorize.format("&m&7------------------------------------------"));
+            helpMsg.add(Colorize.format("&7Usage: &r/collect reload - reloading configurations"));
+            helpMsg.add(Colorize.format("&m&7------------------------------------------"));
+
+            for (String a : helpMsg)
+                sender.sendMessage(Colorize.format(a));
+
             return;
         }
 
