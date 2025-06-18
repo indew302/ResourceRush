@@ -3,7 +3,7 @@ package whyI.resourceRush;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class CheckUpdater {
-    private final String pluginResourceId = "1234";
+    private final String pluginResourceId = "126168";
 
     public CheckUpdater() {
         checkForUpdates();
@@ -19,7 +19,7 @@ public class CheckUpdater {
                         ResourceRush.getInstance().getLogger().info("====================================");
                         ResourceRush.getInstance().getLogger().info("A new version of the plugin is available: " + latestVersion);
                         ResourceRush.getInstance().getLogger().info("Your version: " + currentVersion);
-                        ResourceRush.getInstance().getLogger().info("Download: https://www.spigotmc.org/resources/1234");
+                        ResourceRush.getInstance().getLogger().info("Download: https://www.spigotmc.org/resources/" + pluginResourceId);
                         ResourceRush.getInstance().getLogger().info("====================================");
                     } else {
                         ResourceRush.getInstance().getLogger().info("You have the latest version of the plugin.");
