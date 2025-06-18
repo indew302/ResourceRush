@@ -1,7 +1,0 @@
-name: ResourceRush
-version: '1.0-SNAPSHOT'
-main: whyI.resourceRush.ResourceRush
-api-version: '1.19'
-commands:
-  collect:
-    description: start and stop mini-game.
