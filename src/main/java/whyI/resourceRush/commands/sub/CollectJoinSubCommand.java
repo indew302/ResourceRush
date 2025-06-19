@@ -11,6 +11,7 @@ import whyI.resourceRush.ResourceRush;
 import whyI.resourceRush.interfaces.SubCommand;
 import whyI.resourceRush.managers.game.GameManager;
 import whyI.resourceRush.utility.Colorize;
+import whyI.resourceRush.utility.MessageUtils;
 
 public class CollectJoinSubCommand implements SubCommand {
     private GameManager gameManager;
@@ -29,39 +30,48 @@ public class CollectJoinSubCommand implements SubCommand {
             return;
         }
 
-        FileConfiguration config = ResourceRush.getInstance().getConfig();
-        String _noPerm = config.getString("noPermission");
-        if(_noPerm == null) {
+        MessageUtils messageUtils = ResourceRush.getInstance().getMessageUtils();
+        if(messageUtils._noPermission == null) {
             player.sendMessage(Colorize.format("&4In the configuration, you need to specify the text noPermission"));
             return;
         }
 
         if (!player.hasPermission("resourcerush.user") || !player.hasPermission("resourcerush.admin") || !player.isOp()) {
-            player.sendMessage(Colorize.format(_noPerm));
+            player.sendMessage(Colorize.format(messageUtils._noPermission));
             return;
         }
+
         UUID uuid = player.getUniqueId();
         if (args.length > 1)
             return;
+
         if (this.gameManager.getPlayerPoints().containsKey(uuid)) {
-            player.sendMessage(Colorize.format("&4You're already connected to the game."));
+            player.sendMessage(Colorize.format(messageUtils._alreadyingame));
             return;
         }
+
         if (!this.gameManager.isStarted()) {
-            player.sendMessage(Colorize.format("&4The game has not started yet."));
+            player.sendMessage(Colorize.format(messageUtils._gamenotrunning));
             return;
         }
-        this.gameManager.getPlayerPoints().put(uuid, (Integer)this.gameManager.getPlayerPoints().getOrDefault(uuid, Integer.valueOf(0)));
+
+        this.gameManager.getPlayerPoints().put(uuid, gameManager.getPlayerPoints().getOrDefault(uuid, 0));
+
         ItemStack[] contents = player.getInventory().getContents();
         this.gameManager.getPlayerInventory().put(uuid, contents);
+
         player.setHealth(20.0D);
         player.setFoodLevel(20);
+
         ItemStack pickaxe = new ItemStack(Material.DIAMOND_PICKAXE);
         ItemMeta itemMeta = pickaxe.getItemMeta();
         itemMeta.setDisplayName(Colorize.format("&fPickaxe &9Diamond"));
+
         pickaxe.setItemMeta(itemMeta);
+
         player.getInventory().clear();
         player.getInventory().setItem(4, pickaxe);
+
         ResourceRush.getInstance().getScoreManager().createScoreboard(player);
     }
 }

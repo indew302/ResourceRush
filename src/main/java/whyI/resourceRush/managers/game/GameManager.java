@@ -48,10 +48,12 @@ public class GameManager {
 
         }
 
+        FileConfiguration config = ResourceRush.getInstance().getConfig();
+
         broadcastStartGame();
 
         new BukkitRunnable() {
-            int timeLeft = 120;
+            int timeLeft = config.getInt("game.expire-time") * 60 * 20;
 
             public void run() {
                 if (this.timeLeft <= 0) {

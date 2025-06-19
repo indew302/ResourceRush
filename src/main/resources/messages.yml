@@ -1,0 +1,6 @@
+noPermission: "&4You don't have enough rights to use this command!"
+blocksbreak-points: "&aYou have obtained a &e{blockType} &aand received: &e{points} &apoints"
+alreadyingame: "&4You're already connected to the game."
+game-not-running: "&4The game has not started yet."
+game-not-leave: "&4You are not in the game!"
+if-player-in-creative: "&4While you're in CREATIVE mode, you can't break blocks and earn points."

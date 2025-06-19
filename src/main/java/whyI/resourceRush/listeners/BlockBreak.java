@@ -1,6 +1,8 @@
 package whyI.resourceRush.listeners;
 
 import java.util.UUID;
+
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -12,8 +14,10 @@ import org.bukkit.event.block.BlockBreakEvent;
 import whyI.resourceRush.ResourceRush;
 import whyI.resourceRush.managers.game.GameManager;
 import whyI.resourceRush.utility.Colorize;
+import whyI.resourceRush.utility.MessageUtils;
 
 public class BlockBreak implements Listener {
+
     private GameManager gameManager;
 
     public BlockBreak(GameManager gameManager) {
@@ -23,9 +27,9 @@ public class BlockBreak implements Listener {
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
         FileConfiguration config = ResourceRush.getInstance().getConfig();
+        MessageUtils messageUtils = ResourceRush.getInstance().getMessageUtils();
         Player player = event.getPlayer();
 
-        String _blocksbreak = config.getString("blocksbreak-points");
         Sound _blocksbreaksound = Sound.valueOf(config.getString("blocksbreak-sound"));
         Boolean _breaksound = Boolean.valueOf(config.getBoolean("break-sound"));
         if (_blocksbreaksound == null)
@@ -41,26 +45,34 @@ public class BlockBreak implements Listener {
             return;
 
         if (player.getGameMode().equals(GameMode.CREATIVE)) {
-            player.sendMessage(Colorize.format("&4While you're in CREATIVE mode, you can't break blocks and earn points."));
+            player.sendMessage(Colorize.format(messageUtils._ifplayerincreative));
             event.setCancelled(true);
             return;
         }
-        for (int i = 0; i < this.gameManager.getMaterialList().size(); i++) {
-            if (this.gameManager.getMaterialList() == null)
-                return;
 
-            if (block.getType() == this.gameManager.getMaterialList().get(i)) {
-                this.gameManager.addPoints(player, Integer.valueOf(2));
-                event.setDropItems(false);
+        try {
+            for (int i = 0; i < gameManager.getMaterialList().size(); i++) {
+                if (gameManager.getMaterialList() == null)
+                    return;
 
-                String _blockbreak = _blocksbreak.replace("{blockType}", String.valueOf(block.getType())).replace("{points}", String.valueOf(this.gameManager.getPoints(player)));
-                if (_breaksound.booleanValue())
-                    player.playSound(player.getLocation(), _blocksbreaksound, 1.0F, 2.0F);
+                if (block.getType() == gameManager.getMaterialList().get(i)) {
+                    gameManager.addPoints(player, Integer.valueOf(2));
+                    event.setDropItems(false);
 
-                player.sendMessage(Colorize.format(_blockbreak));
+                    final String v = messageUtils._blocksbreakpoints.replace("{blockType}", String.valueOf(block.getType()))
+                            .replace("{points}", String.valueOf(gameManager.getPoints(player)));
 
-                ResourceRush.getInstance().getScoreManager().updateScoreboard(player);
+                    if (_breaksound.booleanValue())
+                        player.playSound(player.getLocation(), _blocksbreaksound, 1.0F, 2.0F);
+
+                    player.sendMessage(Colorize.format(v));
+
+                    ResourceRush.getInstance().getScoreManager().updateScoreboard(player);
+                }
             }
+        } catch (Exception e) {
+            Bukkit.getLogger().severe("Couldn't get data from the block configuration");
+            e.printStackTrace();
         }
     }
 }

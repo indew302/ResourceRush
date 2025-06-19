@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import whyI.resourceRush.ResourceRush;
 import whyI.resourceRush.interfaces.SubCommand;
 import whyI.resourceRush.utility.Colorize;
+import whyI.resourceRush.utility.MessageUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -15,12 +16,17 @@ public class CommandManager {
 
     private Map<String, SubCommand> subCommands = new HashMap<>();
 
+    private MessageUtils messageUtils;
+
+    public CommandManager(MessageUtils messageUtils) {
+        this.messageUtils = messageUtils;
+    }
+
     public void registerSubCommand(SubCommand subCommand) {
         this.subCommands.put(subCommand.getName().toLowerCase(), subCommand);
     }
 
     public boolean onCommand(CommandSender sender, String[] args) {
-        FileConfiguration config = ResourceRush.getInstance().getConfig();
         if (!(sender instanceof Player player)) {
             if (args.length == 0) {
                 sender.sendMessage(Colorize.format("&7Usage: &r/collect <subcommand>"));
@@ -38,9 +44,8 @@ public class CommandManager {
             return true;
         }
 
-        String _noPerm = config.getString("noPermission");
         if (!player.hasPermission("resourcerush.user") || !player.hasPermission("resourcerush.admin") || !player.isOp()) {
-            player.sendMessage(Colorize.format(_noPerm));
+            player.sendMessage(Colorize.format(messageUtils._noPermission));
             return false;
         }
 

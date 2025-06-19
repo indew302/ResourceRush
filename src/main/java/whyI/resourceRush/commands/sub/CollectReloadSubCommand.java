@@ -8,6 +8,7 @@ import whyI.resourceRush.ResourceRush;
 import whyI.resourceRush.data.BlockConfiguration;
 import whyI.resourceRush.interfaces.SubCommand;
 import whyI.resourceRush.utility.Colorize;
+import whyI.resourceRush.utility.MessageUtils;
 
 public class CollectReloadSubCommand implements SubCommand {
 
@@ -40,15 +41,14 @@ public class CollectReloadSubCommand implements SubCommand {
             return;
         }
 
-        FileConfiguration config = ResourceRush.getInstance().getConfig();
-        String _noPerm = config.getString("noPermission");
-        if(_noPerm == null) {
+        MessageUtils messageUtils = ResourceRush.getInstance().getMessageUtils();
+        if(messageUtils._noPermission == null) {
             player.sendMessage(Colorize.format("&4In the configuration, you need to specify the text noPermission"));
             return;
         }
 
         if (!player.hasPermission("resourcerush.user") || !player.hasPermission("resourcerush.admin") || !player.isOp()) {
-            player.sendMessage(Colorize.format(_noPerm));
+            player.sendMessage(Colorize.format(messageUtils._noPermission));
             return;
         }
 

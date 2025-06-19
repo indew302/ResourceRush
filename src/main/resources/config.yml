@@ -1,5 +1,6 @@
-latest-version: '1.1-SNAPSHOT'
-noPermission: "&4You don't have enough rights to use this command!"
+latest-version: '1.3-SNAPSHOT'
+game:
+  expire-time: 3
 scoreboard:
   game:
     title: "&eResourceRush"
@@ -11,7 +12,6 @@ scoreboard:
       - " &fYour points: &e{points}"
       - ""
       - "&m&7---------------------"
-blocksbreak-points: "&aYou have obtained a &e{blockType} &aand received: &e{points} &apoints"
 blocksbreak-sound: ENTITY_PLAYER_LEVELUP
 break-sound: true
 broadcastStart:

@@ -24,11 +24,13 @@ public class BlockConfiguration {
     public void loadBlocksConfig() {
         try {
             this.configData = new File(ResourceRush.getInstance().getDataFolder(), "blocks.yml");
-            if (!this.configData.exists())
+            if (!this.configData.exists()) {
                 ResourceRush.getInstance().saveResource("blocks.yml", false);
-            this.dataConfig = (FileConfiguration)YamlConfiguration.loadConfiguration(this.configData);
+            }
+
+            this.dataConfig = YamlConfiguration.loadConfiguration(this.configData);
         } catch (Exception e) {
-            Bukkit.getLogger().severe("Couldn't create/upload the blocks.yml config");
+            Bukkit.getLogger().severe("[ResourceRush] Couldn't create/upload the blocks.yml config");
             e.printStackTrace();
         }
     }
@@ -39,11 +41,13 @@ public class BlockConfiguration {
             Bukkit.getLogger().warning("[ResourceRush] No blocks found in configuration.");
             return;
         }
+
         GameManager gameManager = ResourceRush.getInstance().getGameManager();
         if (gameManager == null) {
             Bukkit.getLogger().warning("[ResourceRush] GameManager can't initialization!");
             return;
         }
+
         try {
             for (int i = 0; i < materialList.size(); i++) {
                 String materialName = materialList.get(i);
@@ -59,10 +63,11 @@ public class BlockConfiguration {
                     }
                 }
             }
+
         } catch (Exception e) {
-            Bukkit.getLogger().severe("The plugin could not successfully load all the blocks");
+            Bukkit.getLogger().severe("[ResourceRush] The plugin could not successfully load all the blocks");
             e.printStackTrace();
-            Bukkit.getPluginManager().disablePlugin((Plugin)ResourceRush.getInstance());
+            Bukkit.getPluginManager().disablePlugin(ResourceRush.getInstance());
         }
         Bukkit.getLogger().info("[ResourceRush] Blocks loading: " + gameManager.getMaterialList().size());
     }
@@ -71,7 +76,7 @@ public class BlockConfiguration {
         try {
             this.dataConfig.save(this.configData);
         } catch (IOException e) {
-            Bukkit.getLogger().severe("The blocks.yml file could not be saved");
+            Bukkit.getLogger().severe("[ResourceRush] The blocks.yml file could not be saved");
             e.printStackTrace();
         }
     }

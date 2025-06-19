@@ -95,4 +95,13 @@ public class ScoreManager {
             player.setScoreboard(manager.getMainScoreboard());
         }
     }
+
+    public void clearAllScoreboard() {
+        ScoreboardManager manager = Bukkit.getScoreboardManager();
+        if(manager != null) {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                player.setScoreboard(manager.getMainScoreboard());
+            }
+        }
+    }
 }
