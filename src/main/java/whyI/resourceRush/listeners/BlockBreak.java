@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -11,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 import whyI.resourceRush.ResourceRush;
 import whyI.resourceRush.managers.game.GameManager;
 import whyI.resourceRush.utility.Colorize;
@@ -55,8 +57,28 @@ public class BlockBreak implements Listener {
                 if (gameManager.getMaterialList() == null)
                     return;
 
+                if(event.getBlock().getType() != gameManager.getMaterialList().get(i))
+                    event.setCancelled(true);
+
                 if (block.getType() == gameManager.getMaterialList().get(i)) {
                     gameManager.addPoints(player, Integer.valueOf(2));
+                    new BukkitRunnable() {
+                        int timeLeft = 1;
+                        public void run() {
+                            if(timeLeft <= 0) {
+                                event.getBlock().setType(Material.AIR);
+                                cancel();
+                                return;
+                            }
+
+                            if(timeLeft > 0) {
+                                event.getBlock().setType(Material.COBBLESTONE);
+                            }
+
+                            timeLeft--;
+                        }
+                    }.runTaskTimer(ResourceRush.getInstance(),  0L,  20L);
+
                     event.setDropItems(false);
 
                     final String v = messageUtils._blocksbreakpoints.replace("{blockType}", String.valueOf(block.getType()))

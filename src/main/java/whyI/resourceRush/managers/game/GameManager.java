@@ -14,6 +14,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import whyI.resourceRush.ResourceRush;
 import whyI.resourceRush.utility.Colorize;
 
@@ -24,6 +25,8 @@ public class GameManager {
     private Map<UUID, ItemStack[]> playerInventory = (Map)new HashMap<>();
 
     private List<Material> materialList = new ArrayList<>();
+
+    private BukkitTask bukkitTask;
 
     private boolean isStarted;
 
@@ -52,8 +55,8 @@ public class GameManager {
 
         broadcastStartGame();
 
-        new BukkitRunnable() {
-            int timeLeft = config.getInt("game.expire-time") * 60 * 20;
+        bukkitTask = new BukkitRunnable() {
+            int timeLeft = config.getInt("game.expire-time") * 60;
 
             public void run() {
                 if (this.timeLeft <= 0) {
@@ -80,6 +83,7 @@ public class GameManager {
                     if (this.timeLeft <= 10)
                         player.sendMessage(Colorize.format("&e" + this.timeLeft + " second(s) left."));
                 }
+
                 this.timeLeft--;
             }
 
@@ -127,6 +131,8 @@ public class GameManager {
                 Bukkit.getLogger().severe("It was not possible to announce the winner, as well as to return the items " + e.getMessage());
                 e.printStackTrace();
             }
+
+            bukkitTask.cancel();
 
             removePlayersPoints();
             removePlayerInventoryContents();
