@@ -63,21 +63,26 @@ public class BlockBreak implements Listener {
                 if (block.getType() == gameManager.getMaterialList().get(i)) {
                     gameManager.addPoints(player, Integer.valueOf(2));
                     new BukkitRunnable() {
-                        int timeLeft = 1;
+                        @Override
                         public void run() {
-                            if(timeLeft <= 0) {
-                                event.getBlock().setType(Material.AIR);
-                                cancel();
-                                return;
-                            }
+                            new BukkitRunnable() {
+                                int timeLeft = 1;
+                                public void run() {
+                                    if(timeLeft <= 0) {
+                                        event.getBlock().setType(Material.AIR);
+                                        cancel();
+                                        return;
+                                    }
 
-                            if(timeLeft > 0) {
-                                event.getBlock().setType(Material.COBBLESTONE);
-                            }
+                                    if(timeLeft > 0) {
+                                        event.getBlock().setType(Material.COBBLESTONE);
+                                    }
 
-                            timeLeft--;
+                                    timeLeft--;
+                                }
+                            }.runTaskTimer(ResourceRush.getInstance(), 0L, 20L);
                         }
-                    }.runTaskTimer(ResourceRush.getInstance(),  0L,  20L);
+                    }.runTaskAsynchronously(ResourceRush.getInstance());
 
                     event.setDropItems(false);
 

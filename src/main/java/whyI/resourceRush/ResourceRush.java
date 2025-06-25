@@ -11,6 +11,7 @@ import whyI.resourceRush.data.BlockConfiguration;
 import whyI.resourceRush.data.MessageConfiguration;
 import whyI.resourceRush.listeners.BlockBreak;
 import whyI.resourceRush.listeners.DamagePlayer;
+import whyI.resourceRush.listeners.PlaceBlock;
 import whyI.resourceRush.listeners.PlayerQuit;
 import whyI.resourceRush.managers.CommandManager;
 import whyI.resourceRush.managers.game.GameManager;
@@ -83,6 +84,7 @@ public final class ResourceRush extends JavaPlugin {
 
             try {
                 pm.registerEvents(new BlockBreak(this.gameManager), this);
+                pm.registerEvents(new PlaceBlock(this.gameManager), this);
                 pm.registerEvents(new DamagePlayer(this.gameManager), this);
                 pm.registerEvents(new PlayerQuit(this.gameManager), this);
             } catch (Exception e) {
